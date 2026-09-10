@@ -4,9 +4,9 @@
 
 # CIRCA
 
-**CIR**cular **CA**mera — a tiny always-on-top circular webcam overlay.
+**CIR**cular **CA**mera —— 常驻置顶的圆形摄像头悬浮窗。
 
-Drop your face on top of slides, screen recordings, and podcasts — the way Loom and mmhmm do it — without hauling in a full video suite.
+把你的画面叠在幻灯片、录屏和播客画面之上，就像 Loom 和 mmhmm 那样，而不必拖上一个完整的视频套件。
 
 [![CI](https://github.com/anjingcuc/circa/actions/workflows/ci.yml/badge.svg)](https://github.com/anjingcuc/circa/actions/workflows/ci.yml)
 [![Release](https://github.com/anjingcuc/circa/actions/workflows/release.yml/badge.svg)](https://github.com/anjingcuc/circa/actions/workflows/release.yml)
@@ -14,87 +14,87 @@ Drop your face on top of slides, screen recordings, and podcasts — the way Loo
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-blue)](https://github.com/anjingcuc/circa/releases/latest)
 
-*A [Rust](https://www.rust-lang.org/) / [Tauri 2](https://v2.tauri.app/) port of [raffimd2/camera-floating-panel](https://github.com/raffimd2/camera-floating-panel) (Electron).*
+**简体中文** | [English](README.en.md)
+
+基于 Rust + [Tauri 2](https://v2.tauri.app/) 移植自 [raffimd2/camera-floating-panel](https://github.com/raffimd2/camera-floating-panel)（Electron）
 
 </div>
 
 ---
 
-## ✨ Features
+## 功能特性
 
-- 🎥 **Circular webcam overlay** — frameless, transparent, always on top of everything, including fullscreen PowerPoint slideshows
-- 🖱️ **Drag to move, scroll to resize** (120–800 px, always a perfect circle)
-- 📷 **Camera picker** with hot-plug support — plug in a new camera and the list refreshes instantly; your choice is remembered across launches
-- 👻 **Click-through mode** — let clicks fall through to your slides; the overlay keeps floating above while staying out of your way
-- 🪶 **Tiny footprint** — a small native binary (Rust + system WebView2) instead of a bundled Chromium
+- **圆形摄像头悬浮窗** —— 无边框、透明、始终置顶，可悬浮在全屏 PowerPoint 放映之上
+- **拖拽移动、滚轮缩放**（120–800 px，始终保持正圆）
+- **摄像头切换** —— 支持热插拔，插入新设备即时刷新列表，选择自动记忆
+- **点击穿透** —— 开启后鼠标点击直达下方的幻灯片，悬浮窗只负责"露脸"
+- **体积轻巧** —— 原生 Rust 核心 + 系统 WebView2，安装包仅约 2 MB
 
-> CIRCA only renders video. Audio is handled by whatever screen recorder you use — record with your tool's **full-screen capture mode** so it picks up both your slides and the overlay together.
+> [!NOTE]
+> CIRCA 只负责画面渲染，不处理音频。请使用录屏软件的**全屏录制模式**，让它同时捕获幻灯片与悬浮窗；麦克风音频由录屏软件自行处理。
 
-## 🎮 Controls
+## 下载安装
 
-Hover over the circle to reveal the control bar.
+从 **[Releases](https://github.com/anjingcuc/circa/releases/latest)** 页面获取最新版：
 
-| Action | How |
+- `CIRCA_x.y.z_x64-setup.exe` —— NSIS 安装包（推荐）
+
+> [!IMPORTANT]
+> 支持 Windows 10/11（x64）。首次启动会弹出 Windows 相机权限提示，请允许一次，摄像头名称才能正常显示。
+
+## 使用
+
+将鼠标悬停在圆窗上即可唤出控制条。
+
+| 操作 | 方式 |
 |---|---|
-| Move | Drag anywhere on the circle |
-| Resize | Scroll wheel on the circle (120–800 px) |
-| Switch camera | Dropdown in the hover bar (auto-refreshes on device changes) |
-| Toggle click-through | 👆 button or **Ctrl+Shift+C** (global hotkey, works even while click-through is on) |
-| Minimize / Close | — / ✕ buttons in the hover bar |
+| 移动 | 在圆窗上任意位置拖拽 |
+| 缩放 | 在圆窗上滚动滚轮（120–800 px） |
+| 切换摄像头 | 悬停条中的下拉框（设备插拔后自动刷新） |
+| 开关点击穿透 | 👆 按钮或全局热键 **Ctrl+Shift+C**（穿透开启时依然有效） |
+| 最小化 / 关闭 | 悬停条中的 — / ✕ 按钮 |
 
-**Tip for click-through:** while it is on, moving the cursor over the bottom control bar automatically makes the bar clickable again (a Rust-side cursor watcher), so you can always toggle it off without the hotkey.
+> [!TIP]
+> 点击穿透开启时，把鼠标移到底部控制条上会自动恢复可点击状态（Rust 侧 30 Hz 光标监视实现），无需热键也能随时关闭穿透。
 
-## 📥 Download
+## 从源码构建
 
-Grab the latest installer from the **[Releases](https://github.com/anjingcuc/circa/releases/latest)** page:
-
-- `CIRCA_x.y.z_x64-setup.exe` — NSIS installer (recommended)
-
-Windows 10/11 (x64) is the supported platform. On first launch, accept the Windows camera permission prompt once so camera labels can populate.
-
-## 🛠️ Build from source
-
-Prerequisites: [Rust](https://rustup.rs/) (stable), [Node.js](https://nodejs.org/) (LTS), Windows with WebView2.
+前置要求：[Rust](https://rustup.rs/)（stable）、[Node.js](https://nodejs.org/)（LTS）、带 WebView2 的 Windows。
 
 ```bash
 git clone https://github.com/anjingcuc/circa.git
 cd circa
 npm install
-npm run dev     # develop
-npm run build   # produce the NSIS installer + standalone exe in src-tauri/target/release
+npm run dev     # 开发调试
+npm run build   # 生成 NSIS 安装包 + 独立 exe（位于 src-tauri/target/release）
 ```
 
-### Project layout
+### 项目结构
 
 ```
-dist/                    Frontend — plain HTML/CSS/JS (camera capture, UI wiring)
-src-tauri/src/main.rs    Rust — window management, click-through cursor watcher,
-                         global shortcut, resize command
-src-tauri/               Tauri 2 app config, capabilities, icons, bundle settings
-.github/workflows/       CI checks + automated release builds
+dist/                    前端 —— 纯 HTML/CSS/JS（摄像头采集与 UI 交互）
+src-tauri/src/main.rs    Rust —— 窗口管理、穿透光标监视、全局热键、缩放命令
+src-tauri/               Tauri 2 应用配置、权限、图标与打包设置
+.github/workflows/       CI 检查 + 标签触发的自动构建发布
 ```
 
-## 🔀 vs. the original [camera-floating-panel](https://github.com/raffimd2/camera-floating-panel)
+## 与原版的对比
 
-| | Original (Electron) | CIRCA (Tauri / Rust) |
+本项目是 [raffimd2/camera-floating-panel](https://github.com/raffimd2/camera-floating-panel)（Electron）的 Rust/Tauri 移植版：
+
+| | 原版（Electron） | CIRCA（Tauri / Rust） |
 |---|---|---|
-| Runtime | Bundled Chromium (Electron 32) | System WebView2, native Rust core |
-| Installer size | ~80 MB+ | ~2 MB |
-| Click-through | Electron mouse-move forwarding | Rust-side 30 Hz OS cursor polling (`Win32 GetCursorPos`) keeps the control bar reachable |
-| UI | Vanilla HTML/CSS/JS | Same — reused from the original |
-| Platforms | Windows | Windows (NSIS build) |
+| 运行时 | 内置 Chromium（Electron 32） | 系统 WebView2 + 原生 Rust 核心 |
+| 安装包体积 | ~80 MB+ | ~2 MB |
+| 点击穿透 | Electron 鼠标事件转发 | Rust 侧 30 Hz 轮询系统光标（Win32 `GetCursorPos`），控制条始终可达 |
+| UI | 原生 HTML/CSS/JS | 与原版一致，直接复用 |
+| 平台 | Windows | Windows（NSIS 构建） |
 
-## 🙏 Acknowledgments
+## 致谢
 
-- **[raffimd2/camera-floating-panel](https://github.com/raffimd2/camera-floating-panel)** — the original Electron app. CIRCA is a Rust/Tauri port of it and reuses its frontend UI and design. All credit for the original idea and UX goes to the original author.
-- Built with [Tauri 2](https://v2.tauri.app/).
-
-## 📄 License
-
-This port is released under the [MIT License](LICENSE).
-
-The upstream project does not declare a license; it is credited here as the source of the original design and UI. If you are the upstream author and would like different attribution or licensing terms, please [open an issue](https://github.com/anjingcuc/circa/issues).
+- **[raffimd2/camera-floating-panel](https://github.com/raffimd2/camera-floating-panel)** —— 原始 Electron 项目。CIRCA 是它的 Rust/Tauri 移植版，并复用了其前端 UI 与设计，原始创意与交互设计均归原作者所有。
+- 本项目基于 [Tauri 2](https://v2.tauri.app/) 构建，以 MIT 协议开源，许可证中注明了与上游项目的衍生关系。如原作者对署名或授权方式另有期望，欢迎[开 issue](https://github.com/anjingcuc/circa/issues)联系。
 
 <div align="center">
-<sub>Made with 🦀 while recording slides.</sub>
+<sub>用 🦀 录制幻灯片时打造。</sub>
 </div>
