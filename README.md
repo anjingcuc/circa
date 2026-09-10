@@ -79,7 +79,7 @@ src-tauri/               Tauri 2 app config, capabilities, icons, bundle setting
 | | Original (Electron) | CIRCA (Tauri / Rust) |
 |---|---|---|
 | Runtime | Bundled Chromium (Electron 32) | System WebView2, native Rust core |
-| Installer size | ~80 MB+ | ~3 MB |
+| Installer size | ~80 MB+ | ~2 MB |
 | Click-through | Electron mouse-move forwarding | Rust-side 30 Hz OS cursor polling (`Win32 GetCursorPos`) keeps the control bar reachable |
 | UI | Vanilla HTML/CSS/JS | Same — reused from the original |
 | Platforms | Windows | Windows (NSIS build) |
