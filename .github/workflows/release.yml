@@ -49,7 +49,9 @@ jobs:
           cd src-tauri/target/release
           # 便携版：构建产出的单体 exe，免安装、开箱即用
           PORTABLE_SRC="$(ls *.exe | grep -vi 'setup' | head -n 1)"
+          test -n "$PORTABLE_SRC"
           cp "$PORTABLE_SRC" "CIRCA_${V}_x64_portable.exe"
+          cp "bundle/nsis/CIRCA_${V}_x64-setup.exe" .
           sha256sum "CIRCA_${V}_x64-setup.exe" "CIRCA_${V}_x64_portable.exe" > checksums.txt
           ls -l
 
