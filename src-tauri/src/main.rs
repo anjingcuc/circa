@@ -23,9 +23,15 @@ fn cursor_over_controls(app: &AppHandle, controls: Option<(i32, i32, i32, i32)>)
         use windows_sys::Win32::Foundation::POINT;
         use windows_sys::Win32::UI::WindowsAndMessaging::GetCursorPos;
 
-        let Some((cx, cy, cw, ch)) = controls else { return false };
-        let Some(win) = app.get_webview_window("main") else { return false };
-        let Ok(origin) = win.outer_position() else { return false };
+        let Some((cx, cy, cw, ch)) = controls else {
+            return false;
+        };
+        let Some(win) = app.get_webview_window("main") else {
+            return false;
+        };
+        let Ok(origin) = win.outer_position() else {
+            return false;
+        };
 
         let mut p = POINT { x: 0, y: 0 };
         if unsafe { GetCursorPos(&mut p) } == 0 {
@@ -42,7 +48,9 @@ fn cursor_over_controls(app: &AppHandle, controls: Option<(i32, i32, i32, i32)>)
 }
 
 fn apply_ignore(app: &AppHandle, st: &mut OverlayState) {
-    let Some(win) = app.get_webview_window("main") else { return };
+    let Some(win) = app.get_webview_window("main") else {
+        return;
+    };
     let ignore = st.click_through && !cursor_over_controls(app, st.controls);
     if ignore != st.ignoring {
         if win.set_ignore_cursor_events(ignore).is_ok() {
@@ -61,7 +69,11 @@ fn set_click_through(app: &AppHandle, on: bool) {
 }
 
 fn do_toggle_click_through(app: &AppHandle) {
-    let on = !app.state::<Arc<Mutex<OverlayState>>>().lock().unwrap().click_through;
+    let on = !app
+        .state::<Arc<Mutex<OverlayState>>>()
+        .lock()
+        .unwrap()
+        .click_through;
     set_click_through(app, on);
 }
 
@@ -117,11 +129,12 @@ fn main() {
                 ));
             }
 
-            app.global_shortcut().on_shortcut("ctrl+shift+c", |app, _s, event| {
-                if event.state == ShortcutState::Pressed {
-                    do_toggle_click_through(app);
-                }
-            })?;
+            app.global_shortcut()
+                .on_shortcut("ctrl+shift+c", |app, _s, event| {
+                    if event.state == ShortcutState::Pressed {
+                        do_toggle_click_through(app);
+                    }
+                })?;
 
             // While click-through is on, watch the cursor and re-enable mouse
             // events whenever it lands on the controls, so the toggle button
