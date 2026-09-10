@@ -1,0 +1,24 @@
+[package]
+name = "circa"
+version = "0.1.0"
+description = "CIRCA — circular always-on-top webcam floating panel"
+repository = "https://github.com/anjingcuc/circa"
+license = "MIT"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-global-shortcut = "2"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.60", features = [
+  "Win32_UI_WindowsAndMessaging",
+  "Win32_Foundation"
+] }
+
+[profile.release]
+strip = true
+lto = true

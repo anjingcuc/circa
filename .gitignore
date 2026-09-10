@@ -1,0 +1,20 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Rust / Tauri
+/src-tauri/target/
+/src-tauri/gen/schemas/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Local reference copy of the original Electron project (not part of this repo)
+/camera-floating-panel-main/

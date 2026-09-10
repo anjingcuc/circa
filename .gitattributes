@@ -1,0 +1,21 @@
+# Normalize line endings to LF in the repository, check out as-is
+* text=auto
+
+# Source files always LF
+*.rs text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.lock text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
+
+# Binaries
+*.png binary
+*.ico binary
+*.icns binary
