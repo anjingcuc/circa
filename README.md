@@ -37,10 +37,17 @@
 
 从 **[Releases](https://github.com/anjingcuc/circa/releases/latest)** 页面获取最新版：
 
-- `CIRCA_x.y.z_x64-setup.exe` —— NSIS 安装包（推荐）
+| 文件 | 说明 |
+|---|---|
+| `CIRCA_x.y.z_x64-setup.exe` | NSIS 安装包（推荐） |
+| `CIRCA_x.y.z_x64_portable.exe` | 便携版 —— 单个 exe，下载即用，免安装、不写注册表 |
+| `checksums.txt` | 各文件的 SHA256 校验和 |
 
 > [!IMPORTANT]
 > 支持 Windows 10/11（x64）。首次启动会弹出 Windows 相机权限提示，请允许一次，摄像头名称才能正常显示。
+
+> [!NOTE]
+> 便携版依赖系统已有的 WebView2 运行时（Windows 11 自带，多数 Windows 10 已预装）；若便携版无法启动，请改用安装包，它会自动安装 WebView2。
 
 ## 使用
 

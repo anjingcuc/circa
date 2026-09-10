@@ -7,18 +7,18 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- data-tauri-drag-region makes the circle draggable; the controls inside
-       don't carry the attribute so buttons keep their clicks. -->
+  <!-- data-tauri-drag-region 使圆形区域可整体拖拽；内部控制条不带该属性，
+       按钮因此仍能正常接收点击。 -->
   <div id="container" data-tauri-drag-region>
     <video id="cam" autoplay playsinline muted data-tauri-drag-region></video>
     <div id="ring"></div>
     <div id="controls">
-      <select id="camSelect" title="Camera"></select>
-      <button id="clickThroughBtn" title="Click-through (Ctrl+Shift+C)">👆</button>
-      <button id="minimizeBtn" title="Minimize">—</button>
-      <button id="closeBtn" title="Close">✕</button>
+      <select id="camSelect" title="摄像头"></select>
+      <button id="clickThroughBtn" title="点击穿透（Ctrl+Shift+C）">👆</button>
+      <button id="minimizeBtn" title="最小化">—</button>
+      <button id="closeBtn" title="关闭">✕</button>
     </div>
-    <div id="hint">scroll to resize • drag to move</div>
+    <div id="hint">滚轮缩放 • 拖拽移动</div>
   </div>
   <script src="renderer.js"></script>
 </body>

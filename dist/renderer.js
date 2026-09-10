@@ -32,7 +32,7 @@ async function listCameras(preferredId) {
   cams.forEach((c, i) => {
     const opt = document.createElement('option');
     opt.value = c.deviceId;
-    opt.textContent = c.label || `Camera ${i + 1}`;
+    opt.textContent = c.label || `摄像头 ${i + 1}`;
     camSelect.appendChild(opt);
   });
   if (preferredId && cams.some((c) => c.deviceId === preferredId)) {
@@ -41,12 +41,12 @@ async function listCameras(preferredId) {
 }
 
 function showError(msg) {
-  container.innerHTML = `<div class="error">Camera error<br><br>${msg}</div>`;
+  container.innerHTML = `<div class="error">摄像头出错了<br><br>${msg}</div>`;
 }
 
 (async () => {
   try {
-    // Prime permission so enumerateDevices returns labels.
+    // 先请求一次权限，enumerateDevices 才能返回设备名称。
     const tmp = await navigator.mediaDevices.getUserMedia({ video: true });
     tmp.getTracks().forEach((t) => t.stop());
 
@@ -55,7 +55,7 @@ function showError(msg) {
     if (camSelect.options.length > 0) {
       await startCamera(camSelect.value);
     } else {
-      showError('No camera detected.');
+      showError('未检测到摄像头。');
     }
   } catch (e) {
     showError(e.message || String(e));
@@ -71,7 +71,7 @@ camSelect.addEventListener('change', async () => {
   }
 });
 
-// Refresh device list if cameras are plugged/unplugged.
+// 摄像头插拔时自动刷新设备列表。
 navigator.mediaDevices.addEventListener('devicechange', () =>
   listCameras(camSelect.value)
 );
@@ -80,8 +80,8 @@ closeBtn.addEventListener('click', () => win.close());
 minimizeBtn.addEventListener('click', () => win.minimize());
 clickThroughBtn.addEventListener('click', () => invoke('toggle_click_through'));
 
-// The Rust cursor watcher needs to know where the controls are (in physical
-// pixels) so it can un-ignore mouse events while the cursor is over them.
+// Rust 侧的光标监视器需要知道控制条的位置（物理像素），
+// 以便光标悬停其上时恢复鼠标事件。
 function reportControlsRect() {
   const r = controls.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
@@ -100,7 +100,7 @@ listen('click-through-changed', (e) => {
   clickThroughBtn.classList.toggle('active', e.payload);
 });
 
-// Scroll wheel resizes the window. Step is small so tuning feels precise.
+// 滚轮缩放窗口。步长较小，调节更精细。
 window.addEventListener(
   'wheel',
   (e) => {

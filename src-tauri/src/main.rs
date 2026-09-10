@@ -13,7 +13,7 @@ const MARGIN: i32 = 40;
 struct OverlayState {
     click_through: bool,
     ignoring: bool,
-    // Controls rect in physical px relative to the window's content origin.
+    // 控制条矩形，物理像素，相对窗口内容原点。
     controls: Option<(i32, i32, i32, i32)>,
 }
 
@@ -119,7 +119,7 @@ fn main() {
 
             let win = app.get_webview_window("main").unwrap();
 
-            // Place bottom-right of the primary monitor's work area.
+            // 初始位置：主显示器工作区右下角。
             if let Ok(Some(mon)) = win.primary_monitor() {
                 let size = win.outer_size().unwrap();
                 let wa = mon.work_area();
@@ -136,10 +136,9 @@ fn main() {
                     }
                 })?;
 
-            // While click-through is on, watch the cursor and re-enable mouse
-            // events whenever it lands on the controls, so the toggle button
-            // (and its siblings) stay clickable. Tauri has no equivalent of
-            // Electron's mouse-move forwarding, so we poll the OS cursor.
+            // 点击穿透开启期间轮询光标：一旦移到底部控制条上就恢复鼠标事件，
+            // 保证切换按钮（及其相邻按钮）始终可点。Tauri 没有 Electron 的
+            // 鼠标移动转发等价物，因此改为轮询系统光标位置。
             let handle = app.handle().clone();
             std::thread::spawn(move || loop {
                 std::thread::sleep(Duration::from_millis(33));

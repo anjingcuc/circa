@@ -37,10 +37,17 @@ A Rust + [Tauri 2](https://v2.tauri.app/) port of [raffimd2/camera-floating-pane
 
 Grab the latest build from the **[Releases](https://github.com/anjingcuc/circa/releases/latest)** page:
 
-- `CIRCA_x.y.z_x64-setup.exe` — NSIS installer (recommended)
+| File | Description |
+|---|---|
+| `CIRCA_x.y.z_x64-setup.exe` | NSIS installer (recommended) |
+| `CIRCA_x.y.z_x64_portable.exe` | Portable build — a single exe, no install, no registry changes |
+| `checksums.txt` | SHA256 checksums for the files above |
 
 > [!IMPORTANT]
 > Windows 10/11 (x64) is the supported platform. On first launch, accept the Windows camera permission prompt once so camera labels can populate.
+
+> [!NOTE]
+> The portable build needs the WebView2 runtime already installed (built into Windows 11, preinstalled on most Windows 10). If it fails to start, use the installer instead — it installs WebView2 automatically.
 
 ## Usage
 

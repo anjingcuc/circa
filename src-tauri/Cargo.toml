@@ -1,7 +1,7 @@
 [package]
 name = "circa"
 version = "0.1.0"
-description = "CIRCA — circular always-on-top webcam floating panel"
+description = "CIRCA —— 常驻置顶的圆形摄像头悬浮窗"
 repository = "https://github.com/anjingcuc/circa"
 license = "MIT"
 edition = "2021"

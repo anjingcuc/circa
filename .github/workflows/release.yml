@@ -11,42 +11,72 @@ permissions:
 
 jobs:
   build-and-release:
-    name: Build & publish (Windows x64)
+    name: 构建并发布（Windows x64）
     runs-on: windows-latest
     steps:
-      - name: Checkout repository
+      - name: 检出仓库
         uses: actions/checkout@v5
 
-      - name: Setup Node.js
+      - name: 安装 Node.js
         uses: actions/setup-node@v5
         with:
           node-version: lts/*
           cache: npm
 
-      - name: Setup Rust toolchain
+      - name: 安装 Rust 工具链
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Cache Rust build
+      - name: 缓存 Rust 构建
         uses: swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
 
-      - name: Install frontend dependencies
+      - name: 安装前端依赖
         run: npm ci
 
-      - name: Build and publish release
-        uses: tauri-apps/tauri-action@v0
+      - name: 读取版本号
+        id: ver
+        shell: bash
+        run: echo "version=$(node -p "require('./src-tauri/tauri.conf.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: 构建
+        run: npx tauri build
+
+      - name: 整理发布产物与校验和
+        shell: bash
+        run: |
+          V="${{ steps.ver.outputs.version }}"
+          cd src-tauri/target/release
+          # 便携版：构建产出的单体 exe，免安装、开箱即用
+          PORTABLE_SRC="$(ls *.exe | grep -vi 'setup' | head -n 1)"
+          cp "$PORTABLE_SRC" "CIRCA_${V}_x64_portable.exe"
+          sha256sum "CIRCA_${V}_x64-setup.exe" "CIRCA_${V}_x64_portable.exe" > checksums.txt
+          ls -l
+
+      - name: 发布 GitHub Release
+        shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tagName: v__VERSION__
-          releaseName: "CIRCA v__VERSION__"
-          releaseBody: |
-            See the assets below to download the latest version.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          V="${{ steps.ver.outputs.version }}"
+          TAG="v${V}"
+          cd src-tauri/target/release
+          cat > release_notes.md <<EOF
+          ### 下载 / Downloads
 
-            **Install:** download `CIRCA_v__VERSION___x64-setup.exe` and run it.
+          | 文件 | 说明 |
+          |---|---|
+          | \`CIRCA_${V}_x64-setup.exe\` | NSIS 安装包（推荐）/ NSIS installer (recommended) |
+          | \`CIRCA_${V}_x64_portable.exe\` | 便携版，单个 exe 开箱即用 / Portable single exe, no install |
+          | \`checksums.txt\` | SHA256 校验和 / SHA256 checksums |
 
-            **What's changed:** see the [commit history](https://github.com/anjingcuc/circa/commits/main)
-            since the previous release.
-          releaseDraft: false
-          prerelease: false
+          > [!NOTE]
+          > 便携版依赖系统已有的 WebView2 运行时（Windows 11 自带，多数 Windows 10 已预装）；若无法启动请改用安装包，它会自动安装 WebView2。
+          > The portable build needs the WebView2 runtime already installed (built into Windows 11, preinstalled on most Windows 10). If it fails to start, use the installer instead.
+          EOF
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release edit "$TAG" --title "CIRCA v${V}" --notes-file release_notes.md --latest
+          else
+            gh release create "$TAG" --title "CIRCA v${V}" --notes-file release_notes.md --latest
+          fi
+          gh release upload "$TAG" "CIRCA_${V}_x64-setup.exe" "CIRCA_${V}_x64_portable.exe" checksums.txt --clobber

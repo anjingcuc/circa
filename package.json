@@ -1,7 +1,7 @@
 {
   "name": "circa",
   "version": "0.1.0",
-  "description": "CIRCA (CIRcular CAmera) — a tiny always-on-top circular webcam overlay",
+  "description": "CIRCA（CIRcular CAmera）—— 常驻置顶的圆形摄像头悬浮窗",
   "private": true,
   "scripts": {
     "tauri": "tauri",
